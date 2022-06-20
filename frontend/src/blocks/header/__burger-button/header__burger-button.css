@@ -1,0 +1,35 @@
+.header__burger-button {
+  display: none;
+  width: 24px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  transition: 0.3s;
+}
+.header__burger-button::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  border-bottom: 2px solid #fff;
+  top: 8px;
+  right: 0;
+  transition: 0.3s;
+}
+.header__burger-button::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  border-bottom: 2px solid #fff;
+  bottom: 8px;
+  right: 0;
+  transition: 0.3s;
+}
+@media screen and (max-width: 515px) {
+  .header__burger-button {
+    display: block;
+  }
+}

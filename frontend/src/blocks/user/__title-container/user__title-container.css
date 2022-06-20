@@ -1,0 +1,11 @@
+.user__title-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+@media screen and (max-width:850px) {
+    .user__title-container {
+        justify-content: center;
+    }
+}

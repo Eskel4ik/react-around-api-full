@@ -1,0 +1,6 @@
+@media screen and (max-width: 515px) {
+  .popup__close-button_type_tooltip {
+    left: 46%;
+    top: -40px;
+  }
+}

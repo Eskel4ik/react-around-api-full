@@ -5,6 +5,7 @@ const User = require('../models/user');
 const handleInvalidDataError = require('../errors/invalid-data-err');
 const NotFoundError = require('../errors/not-found-err');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
 const options = { runValidators: true, new: true };
 module.exports.getUser = (req, res, next) => {
   User.findById(req.params.id)
@@ -77,7 +78,7 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
         expiresIn: '7d',
       });
       res.send({ token });
@@ -88,12 +89,12 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  User.findById(req.body._id)
+  User.findById(req.user._id)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('No user found with that id');
       }
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       next(err);

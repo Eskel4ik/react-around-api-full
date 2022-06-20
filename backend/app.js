@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const userRouter = require('./routes/users');
@@ -19,6 +20,7 @@ app.use(requestLogger);
 app.post('/signin', login);
 app.post('/signup', createUser);
 app.use(auth);
+app.get('/users/me', userRouter);
 app.get('/users', userRouter);
 app.post('/users', userRouter);
 app.post('/cards', cardsRouter);

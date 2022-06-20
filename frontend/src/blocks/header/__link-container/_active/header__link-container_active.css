@@ -1,0 +1,4 @@
+.header__link-container_active {
+  height: 150px;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}

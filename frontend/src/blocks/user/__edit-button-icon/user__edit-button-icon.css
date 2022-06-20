@@ -1,0 +1,10 @@
+.user__edit-button-icon {
+    -webkit-user-drag: none;
+}
+
+@media screen and (max-width:850px) {
+    .user__edit-button-icon {
+        width: 7.5px;
+        margin: 5.25px;
+    }
+}

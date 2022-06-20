@@ -1,0 +1,19 @@
+.user__info {
+    margin: 16px 0 0 0;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 500px;
+}
+
+@media screen and (max-width:850px) {
+    .user__info {
+        text-align: center;
+        font-size: 14px;
+        line-height: 17px;
+        margin: 14px auto 0 auto;
+    }
+}

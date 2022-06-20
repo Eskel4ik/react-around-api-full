@@ -1,0 +1,11 @@
+.popup__form-container_type_tooltip {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+@media screen and (max-width: 515px) {
+  .popup__form-container_type_tooltip {
+    max-width: 90%;
+    width: 100%;
+  }
+}
