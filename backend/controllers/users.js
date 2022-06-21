@@ -38,7 +38,7 @@ module.exports.createUser = (req, res, next) => {
       name, about, avatar, password: hash, email,
     }))
     .then((user) => {
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       handleInvalidDataError(err, res);
@@ -53,7 +53,7 @@ module.exports.updateUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('No user found with that id');
       }
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       next(err);
@@ -67,7 +67,7 @@ module.exports.updateAvatar = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('No user found with that id');
       }
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       handleInvalidDataError(err, res);
@@ -78,7 +78,8 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
+      const token = jwt.sign({ _id: user._id },
+  NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
         expiresIn: '7d',
       });
       res.send({ token });
