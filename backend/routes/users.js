@@ -18,6 +18,8 @@ const validateURL = (value, helpers) => {
 
 userRouter.get('/users', getUsers);
 
+userRouter.get('/users/me', getCurrentUser);
+
 userRouter.get('/users/:id', getUser);
 
 userRouter.patch(
@@ -40,7 +42,5 @@ userRouter.patch(
   }),
   updateAvatar,
 );
-
-userRouter.get('users/me', getCurrentUser);
 
 module.exports = userRouter;
