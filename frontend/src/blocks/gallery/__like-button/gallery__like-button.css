@@ -1,0 +1,13 @@
+.gallery__like-button {
+    background-image: url(../../../images/like.svg);
+    background-size: cover;
+    width: 21px;
+    height: 19px;
+    cursor: pointer;
+    border: 0;
+    background-color: inherit;
+}
+
+.gallery__like-button:hover {
+    opacity: .5;
+}

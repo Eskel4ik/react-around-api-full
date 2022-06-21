@@ -1,0 +1,20 @@
+.user {
+    padding: 40px 0 50px 0;
+    display: flex;
+    color: #fff;
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width:879px) {
+    .user {
+        max-width: calc(100% - 38px);
+        padding: 0;
+    }
+}
+
+@media screen and (max-width:850px) {
+    .user {
+        flex-direction: column;
+    }
+}

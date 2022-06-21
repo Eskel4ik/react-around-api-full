@@ -1,0 +1,13 @@
+.header__logout-button {
+  background-color: transparent;
+  cursor: pointer;
+  color: #a9a9a9;
+  border: none;
+  font-size: 18px;
+  line-height: 22px;
+}
+@media screen and (max-width: 515px) {
+  .header__logout-button {
+    margin-bottom: 40px;
+  }
+}

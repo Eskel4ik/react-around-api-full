@@ -1,0 +1,13 @@
+.user__avatar-icon {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    opacity: 0;
+    width: 26px;
+    height: 26px;
+    transition: opacity .3s;
+}
+
+.user__avatar-wrapper:hover .user__avatar-icon {
+    opacity: 1;
+}

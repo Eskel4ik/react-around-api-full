@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
+require('dotenv').config();
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const userRouter = require('./routes/users');
