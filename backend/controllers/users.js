@@ -38,7 +38,13 @@ module.exports.createUser = (req, res, next) => {
       name, about, avatar, password: hash, email,
     }))
     .then((user) => {
-      res.send({ user });
+      res.send({
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+        _id: user._id,
+      });
     })
     .catch((err) => {
       handleInvalidDataError(err, res);
@@ -48,7 +54,7 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
-  User.findOneAndUpdate(req.user._id, { name, about }, options)
+  User.findByIdAndUpdate(req.user._id, { name, about }, options)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('No user found with that id');
@@ -62,7 +68,7 @@ module.exports.updateUser = (req, res, next) => {
 
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  User.findOneAndUpdate(req.user._id, { avatar }, options)
+  User.findByIdAndUpdate(req.user._id, { avatar }, options)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('No user found with that id');
@@ -78,10 +84,13 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id },
-  NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', {
-        expiresIn: '7d',
-      });
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        {
+          expiresIn: '7d',
+        },
+      );
       res.send({ token });
     })
     .catch((err) => {

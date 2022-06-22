@@ -1,15 +1,14 @@
 const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
-require('dotenv').config();
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const userRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const auth = require('./middleware/auth');
-var cors = require('cors');
 
 const { PORT = 3000 } = process.env;
 
@@ -45,7 +44,9 @@ app.get('*', (req, res) => {
 });
 app.use(errorLogger);
 app.use((err, req, res, next) => {
-console.log(err);
+  if (err.name === 'MongoServerError') {
+    res.status(409).send({ message: 'This email already in use' });
+  }
   const { statusCode = 500, message } = err;
   res
     .status(statusCode)
