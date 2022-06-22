@@ -9,6 +9,7 @@ const cardsRouter = require('./routes/cards');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const auth = require('./middleware/auth');
+const centralErrorHandler = require('./middleware/centralErrorHandler');
 
 const { PORT = 3000 } = process.env;
 
@@ -44,17 +45,7 @@ app.get('*', (req, res) => {
 });
 app.use(errorLogger);
 app.use((err, req, res, next) => {
-  if (err.name === 'MongoServerError') {
-    res.status(409).send({ message: 'This email already in use' });
-  }
-  const { statusCode = 500, message } = err;
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'An error occurred on the server'
-        : message,
-    });
+  centralErrorHandler(err, res);
 });
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);

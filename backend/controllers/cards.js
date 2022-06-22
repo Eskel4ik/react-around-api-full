@@ -1,18 +1,18 @@
 const Card = require('../models/card');
-const handleInvalidDataError = require('../errors/invalid-data-err');
-const NotFoundError = require('../errors/not-found-err');
+const AppError = require('../errors/app-error');
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findOneAndDelete(req.params.id)
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Card not found with that id');
-      }
-      res.send({ data: card });
-    })
-    .catch((err) => {
-      next(err);
-    });
+  Card.findOne(req.params.id).then((card) => {
+    if (!card) {
+      throw new AppError(404, 'Card not found with that id');
+    }
+    if (card.owner.valueOf() !== req.user._id) {
+      throw new AppError(403, 'Forbidden');
+    }
+    return Card.findOneAndDelete(req.params.id)
+      .then((deletedCard) => res.send({ data: deletedCard }))
+      .catch((err) => next(err));
+  });
 };
 
 module.exports.getCards = (req, res, next) => {
@@ -28,7 +28,6 @@ module.exports.createCard = (req, res, next) => {
   Card.create({ name, link, owner })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      handleInvalidDataError(err, res);
       next(err);
     });
 };
@@ -41,7 +40,7 @@ module.exports.likeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Card not found');
+        throw new AppError(404, 'Card not found');
       }
       res.send({ data: card });
     })
@@ -57,7 +56,7 @@ module.exports.dislikeCard = (req, res, next) => {
   )
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Card not found');
+        throw new AppError(404, 'Card not found');
       }
       res.send({ data: card });
     })
