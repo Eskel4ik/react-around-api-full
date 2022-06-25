@@ -2,14 +2,14 @@ const Card = require('../models/card');
 const AppError = require('../errors/app-error');
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findOne(req.params.id).then((card) => {
+  Card.findOne({ _id: req.params.cardId }).then((card) => {
     if (!card) {
       throw new AppError(404, 'Card not found with that id');
     }
     if (card.owner.valueOf() !== req.user._id) {
       throw new AppError(403, 'Forbidden');
     }
-    return Card.findOneAndDelete(req.params.id)
+    return Card.findOneAndDelete(req.params.cardId)
       .then((deletedCard) => res.send({ data: deletedCard }))
       .catch((err) => next(err));
   });
